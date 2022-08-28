@@ -1,0 +1,32 @@
+/*****************************************************************************
+
+		Copyright (c) My Company
+
+ Project:  LR 4
+ FileName: LR 4.PRO
+ Purpose: No description
+ Written by: Visual Prolog
+ Comments:
+******************************************************************************/
+
+include "lr 4.inc"
+
+domains
+set=integer* %(список)множество целых элементов
+sum=integer %сумма элементов множества
+
+ 
+predicates
+nondeterm pred(set,set,set). %предикат с аргументами - тремя множествами
+nondeterm p(set,set,set,sum,sum).%предикат с аргументами - тремя множествами и суммами элементов множеств
+ 
+clauses
+pred(A,B,C):-p(A,B,C,Sum,Sum). %правило, что подходят только те множества, в которых суммы равны
+ 
+p([],[],[],0,0).
+%раскладываем список А по спискам В и С, одновременно считая суммы элементов В и С
+p([H|Tail],[H|B],C,SumB1,SumC):-p(Tail,B,C,SumB,SumC),SumB1=SumB+H. %распределяем элементы в список В
+p([H|Tail],B,[H|C],SumB,SumC1):-p(Tail,B,C,SumB,SumC),SumC1=SumC+H. %распределяем элементы в список С
+ 
+goal
+pred([1,2,3,4,5,6,7],B, C).
